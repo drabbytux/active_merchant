@@ -440,21 +440,22 @@ module ActiveMerchant #:nodoc:
 
       def success_from(action, response)
         return false if response['errorId'] || response['error_message']
+
         case action
         when :authorize
           response.dig('payment', 'statusOutput', 'isAuthorized')
         when :capture
           capture_status = response.dig('status') || response.dig('payment', 'status')
-          ['CAPTURED', 'CAPTURE_REQUESTED'].include?(capture_status)
+          %w(CAPTURED CAPTURE_REQUESTED).include?(capture_status)
         when :void
           if void_response_id = response.dig('cardPaymentMethodSpecificOutput', 'voidResponseId') || response.dig('mobilePaymentMethodSpecificOutput', 'voidResponseId')
-            ['00', '0', '8', '11'].include?(void_response_id)
+            %w(00 0 8 11).include?(void_response_id)
           else
             response.dig('payment', 'status') == 'CANCELLED'
           end
         when :refund
           refund_status = response.dig('status') || response.dig('payment', 'status')
-          ['REFUNDED', 'REFUND_REQUESTED'].include?(refund_status)
+          %w(REFUNDED REFUND_REQUESTED).include?(refund_status)
         else
           response['status'] != 'REJECTED' # default prior to revision, should be removed after building out the rest
         end

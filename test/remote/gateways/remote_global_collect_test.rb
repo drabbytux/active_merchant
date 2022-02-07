@@ -272,7 +272,7 @@ class RemoteGlobalCollectTest < Test::Unit::TestCase
     assert_success response
     assert_equal 'Succeeded', response.message
   end
-  
+
   def test_successful_purchase_with_truncated_address
     response = @gateway.purchase(@amount, @credit_card, @long_address)
     assert_success response

@@ -392,7 +392,7 @@ module ActiveMerchant #:nodoc:
           succeeded,
           message_from(succeeded, response),
           response,
-          authorization: authorization_from(succeeded, response),
+          authorization: authorization_from(response),
           error_code: error_code_from(succeeded, response),
           test: test?
         )
@@ -475,7 +475,7 @@ module ActiveMerchant #:nodoc:
         end
       end
 
-      def authorization_from(succeeded, response)
+      def authorization_from(response)
         response.dig('id') || response.dig('payment', 'id') || response.dig('paymentResult', 'payment', 'id')
       end
 

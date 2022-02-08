@@ -457,8 +457,7 @@ module ActiveMerchant #:nodoc:
           refund_status = response.dig('status') || response.dig('payment', 'status')
           %w(REFUNDED REFUND_REQUESTED).include?(refund_status)
         else
-          response['status'] != 'REJECTED' # default prior to revision, should be removed after building out the rest
-        end
+          response['status'] != 'REJECTED'
       end
 
       def message_from(succeeded, response)

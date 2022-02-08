@@ -458,6 +458,7 @@ module ActiveMerchant #:nodoc:
           %w(REFUNDED REFUND_REQUESTED).include?(refund_status)
         else
           response['status'] != 'REJECTED'
+        end
       end
 
       def message_from(succeeded, response)
